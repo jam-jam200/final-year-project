@@ -1,0 +1,30 @@
+{
+  "name": "project-final-year",
+  "version": "1.0.0",
+  "description": "integration of teleconferencing system and virtual classroom",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jam-jam200/final-year-project.git"
+  },
+  "author": "oyakhilome jessica eseosa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jam-jam200/final-year-project/issues"
+  },
+  "homepage": "https://github.com/jam-jam200/final-year-project#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13",
+    "multer": "^1.4.3",
+    "nodemod": "^3.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
