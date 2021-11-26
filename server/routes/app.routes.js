@@ -6,3 +6,5 @@ router.get("/", (req, res, next) => {
     title: "Talkmore",
   });
 });
+
+module.exports = router;

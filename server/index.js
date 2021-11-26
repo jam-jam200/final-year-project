@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const homeRoute = require("./routes/app.routes");
+
 
 const app = express();
 
@@ -10,12 +12,11 @@ app.use(express.json());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-//seting the image path
-app.use("/image", express.static(path.join(__dirname, "/public")));
+//seting the static path
+app.use("/", express.static(path.join(__dirname, "/public")));
 
-app.get("/", function (req, res) {
-  res.send("hello world!");
-});
+//Routes
+app.use("/", homeRoute);
 
 //running server
 const PORT = 7000;

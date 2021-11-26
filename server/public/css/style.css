@@ -1,0 +1,75 @@
+/*------------------------------------------------------------------
+[Master Stylesheet]
+
+Project:  Final year Project
+Version:	1.0
+Last change:	25/10/2021
+Assigned to:	Jessica
+Primary use:	Open Source
+-------------------------------------------------------------------*/
+
+/*-----------------------------------------------------*/
+/*           NAVBAR                */
+.navbar {
+  position: static;
+  width: 100%;
+  border-color: #e7e7e7;
+  margin-bottom: 7%;
+}
+#logo-img {
+  width: 85%;
+  height: 75%;
+}
+.nav-links {
+  margin-left: 400px;
+}
+.nav-links > ul > li {
+  font-size: 17px;
+  font-weight: 500;
+  margin-left: 20px;
+  text-transform: uppercase;
+}
+.link-color {
+  /* color: #2A69B9 !important; */
+}
+.nav-links > a {
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-left: 20px;
+  width: 120px;
+  height: 40px;
+  border-radius: 15px;
+  font-size: 17px;
+  font-weight: 500;
+}
+.btn1 {
+  background-color: #8ea7c6 !important;
+}
+.btn2 {
+  background-color: #2a69b9;
+}
+
+/***** INDEX (HOME PAGE) STYLE *****/
+.main-div {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0 20px 0 80px;
+  /* margin: 0 20px 0 20px; */
+}
+.text-div > h1 {
+  color: #2a69b9;
+}
+.text-div > p {
+  font-size: 20px;
+}
+.text-div {
+  width: 40%;
+}
+.home-image {
+  width: 50%;
+}
+.home-image > img {
+  height: 85%;
+  box-shadow: 20px;
+  padding-bottom: 100px;
+}
