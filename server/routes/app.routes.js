@@ -6,5 +6,10 @@ router.get("/", (req, res, next) => {
     title: "Talkmore",
   });
 });
+router.get("/get_started", (req, res, next) => {
+  res.render("getStarted.ejs", {
+    title: "Get Started",
+  });
+});
 
 module.exports = router;
