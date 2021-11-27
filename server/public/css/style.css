@@ -29,9 +29,6 @@ Primary use:	Open Source
   margin-left: 20px;
   text-transform: uppercase;
 }
-.link-color {
-  /* color: #2A69B9 !important; */
-}
 .nav-links > a {
   text-decoration: none;
   text-transform: uppercase;
@@ -53,7 +50,7 @@ Primary use:	Open Source
 .main-div {
   display: flex;
   justify-content: space-evenly;
-  padding: 0 20px 0 80px;
+  padding: 0 20px 0 60px;
   /* margin: 0 20px 0 20px; */
 }
 .text-div > h1 {
