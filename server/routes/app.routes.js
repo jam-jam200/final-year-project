@@ -6,11 +6,17 @@ router.get("/", (req, res, next) => {
     title: "Talkmore",
   });
 });
+router.get("/category", (req, res, next) => {
+  res.render("category.ejs", {
+    title: "Category",
+  });
+});
 router.get("/get_started", (req, res, next) => {
   res.render("getStarted.ejs", {
     title: "Get Started",
   });
 });
+
 router.get("/contact_info", (req, res, next) => {
   res.render("contact.ejs", {
     title: "Contact Information",
