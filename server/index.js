@@ -1,25 +1,10 @@
-const express = require("express");
-const path = require("path");
-const homeRoute = require("./routes/app.routes");
-
-
-const app = express();
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-//setting view engine
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-
-//seting the static path
-app.use("/", express.static(path.join(__dirname, "/public")));
-
-//Routes
-app.use("/", homeRoute);
+const dotenv = require("dotenv");
+dotenv.config({ path: "../config.env" });
+const app = require("./app");
 
 //running server
-const PORT = 7000;
+const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => {
   console.log(`server is listening to http://localhost:${PORT}`);
 });
+
