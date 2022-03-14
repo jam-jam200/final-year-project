@@ -1,5 +1,8 @@
 const express = require("express");
+const { Server, Socket } = require("socket.io");
 const router = express.Router();
+const { v4: uuidv4 } = require("uuid");
+
 
 router.get("/", (req, res, next) => {
   res.render("index.ejs", {
@@ -47,9 +50,16 @@ router.get("/lecturer", (req, res, next) => {
     title: "Lecturers",
   });
 });
+router.get("/room", (req, res, next) => {
+  res.redirect(`/${uuidv4()}`);
+});
 router.get("/:room", (req, res, next) => {
   res.render("room.ejs", {
     title: "TalkMore",
+    roomId: req.params.room,
   });
 });
+
+
+
 module.exports = router;

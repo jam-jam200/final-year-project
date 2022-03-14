@@ -367,3 +367,14 @@ svg {
   margin-left: 15px;
   margin-top: 10px;
 }
+
+/* ROOM */
+video {
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+}
+#video-grid {
+  display: flex;
+  justify-content: center;
+}

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-     <%- include('./includes/head.ejs') %>
-</head>
-<body>
-    
-</body>
+  <head> </head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    console.log("<%= roomId %>");
+  </script>
+  <body>
+    <div id="video-grid"></div>
+  </body>
+  <%- include('./includes/head.ejs') %>
 </html>
