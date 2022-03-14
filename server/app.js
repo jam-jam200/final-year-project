@@ -1,12 +1,10 @@
 const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
-
 //mounting routers
 const homeRoute = require("./routes/app.routes");
 const studentRouter = require("./routes/student.routes");
 const teacherRouter = require("./routes/teacher.routes");
-const { Server } = require("https");
 
 const app = express();
 
