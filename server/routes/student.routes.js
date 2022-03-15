@@ -9,10 +9,12 @@ router
   .post(studentController.createStudent);
 
 router
-  .route("/course/:id")
+  .route("/:id")
   .get(studentController.getStudent)
+  .patch(studentController.updateStudent);
+router
+  .route("/course/:id")
   .get(studentController.getCourse)
-  .patch(studentController.updateStudent)
   .delete(studentController.deleteCourse)
   .delete(studentController.deleteStudent);
 
