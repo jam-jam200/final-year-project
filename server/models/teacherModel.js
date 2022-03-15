@@ -1,17 +1,20 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
-const studentSchema = new mongoose.Schema({
+const teacherSchema = new mongoose.Schema({
   firstname: {
     type: String,
     required: [true, "please specify your firstname"],
     maxlength: [50, "Firstname but be less or equal to 50 characters"],
     minlength: [5, "Firstname must be more or equal to 5 characters"],
+    // validate: [validator.isAlpha, "Firstname must only contain alphabets"],
   },
   lastname: {
     type: String,
     required: [true, "please specify your lastname"],
     maxlength: [50, "Lastname but be less or equal to 50 characters"],
     minlength: [5, "Lastname must be more or equal to 5 characters"],
+    // validate: [validator.isAlpha, "Lastname must only contain alphabets"],
   },
   email: {
     type: String,
@@ -23,6 +26,6 @@ const studentSchema = new mongoose.Schema({
     default: "",
   },
 });
-const Student = mongoose.model("Student", studentSchema);
+const Teacher = mongoose.model("Teacher", teacherSchema);
 
-module.exports = Student;
+module.exports = Teacher;
