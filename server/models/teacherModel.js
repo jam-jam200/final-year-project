@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bycrypt = require("bcryptjs");
 
 const teacherSchema = new mongoose.Schema({
   firstname: {
@@ -16,7 +17,7 @@ const teacherSchema = new mongoose.Schema({
     minlength: [3, "Lastname must be more or equal to 3 characters"],
     // validate: [validator.isAlpha, "Lastname must only contain alphabets"],
   },
-   email: {
+  email: {
     type: String,
     required: [true, "please specify your email"],
     unique: true,
@@ -31,12 +32,36 @@ const teacherSchema = new mongoose.Schema({
     type: String,
     required: [true, "please provide a password"],
     minlength: 8,
+    select: false,
   },
   passwordConfirm: {
     type: String,
     required: [true, "please confirm your password"],
+    validate: {
+      validator: function (el) {
+        return el === this.password;
+      },
+      message: "Password are not the same",
+    },
   },
 });
+
+teacherSchema.pre("save", async function (next) {
+  //works after password is modified
+  if (!this.isModified("password")) return next();
+  //hash password with a cost of 12
+  this.password = await bycrypt.hash(this.password, 12);
+  //delete the password confirmed field
+  this.passwordConfirm = undefined;
+});
+
+teacherSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bycrypt.compare(candidatePassword, userPassword);
+};
+
 const Teacher = mongoose.model("Teacher", teacherSchema);
 
 module.exports = Teacher;

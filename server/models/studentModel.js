@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bycrypt = require("bcryptjs");
 
 const studentSchema = new mongoose.Schema({
   firstname: {
@@ -29,12 +30,36 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: [true, "please provide a password"],
     minlength: 8,
+    select: false,
   },
   passwordConfirm: {
     type: String,
     required: [true, "please confirm your password"],
+    validate: {
+      validator: function (el) {
+        return el === this.password;
+      },
+      message: "Password are not the same",
+    },
   },
 });
+
+studentSchema.pre("save", async function (next) {
+  //works after password is modified
+  if (!this.isModified("password")) return next();
+  //hash password with a cost of 12
+  this.password = await bycrypt.hash(this.password, 12);
+  //delete the password confirmed field
+  this.passwordConfirm = undefined;
+});
+
+studentSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bycrypt.compare(candidatePassword, userPassword);
+};
+
 const Student = mongoose.model("Student", studentSchema);
 
 module.exports = Student;

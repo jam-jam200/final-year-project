@@ -4,10 +4,11 @@ const teacherController = require("../controllers/teacherController");
 const teacherAuthController = require("../controllers/teacherAuthController");
 
 router.post("/signup", teacherAuthController.signup);
+router.post("/login", teacherAuthController.login);
 
 router
   .route("/")
-  .get(teacherController.getAllTeachers)
+  .get(teacherAuthController.protect, teacherController.getAllTeachers)
   .post(teacherController.createTeacher);
 
 router

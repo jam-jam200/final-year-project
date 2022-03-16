@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const courseController = require("../controllers/courseController");
+const teacherAuthController = require("../controllers/teacherAuthController");
+const studentAuthController = require("../controllers/studentAuthController");
 
 router
   .route("/:id")
@@ -10,6 +12,10 @@ router
 router
   .route("/")
   .post(courseController.createCourse)
-  .get(courseController.getAllCourses);
+  .get(
+    studentAuthController.protect,
+    teacherAuthController.protect,
+    courseController.getAllCourses
+  );
 
 module.exports = router;

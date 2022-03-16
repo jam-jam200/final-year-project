@@ -1,13 +1,19 @@
 const express = require("express");
 const studentController = require("../controllers/studentController");
 const studentAuthController = require("../controllers/studentAuthController");
+const teacherAuthController = require("../controllers/teacherAuthController");
 const router = express.Router();
 
 router.post("/signup", studentAuthController.signup);
+router.post("/login", studentAuthController.login);
 
 router
   .route("/")
-  .get(studentController.getAllStudent)
+  .get(
+    studentAuthController.protect,
+    teacherAuthController.protect,
+    studentController.getAllStudent
+  )
   .post(studentController.createStudent);
 
 router
