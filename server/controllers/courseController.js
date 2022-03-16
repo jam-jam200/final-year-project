@@ -1,92 +1,73 @@
 const Course = require("../models/courseModel");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 //courses
-exports.getAllCourses = async (req, res) => {
-  try {
-    const courses = await Course.find();
+exports.getAllCourses = catchAsync(async (req, res, next) => {
+  const courses = await Course.find();
 
-    res.status(200).json({
-      status: "success",
-      message: "all courses",
-      results: courses.length,
-      data: {
-        courses,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: "error, cannot get all courses",
-    });
-  }
-};
+  res.status(200).json({
+    status: "success",
+    message: "all courses",
+    results: courses.length,
+    data: {
+      courses,
+    },
+  });
+});
 
-exports.getCourse = async (req, res) => {
-  try {
-    const course = await Course.findById(req.params.id);
-    res.status(200).json({
-      status: "success",
-      message: "course gotten",
-      data: {
-        course,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: "error, cannot get course",
-    });
-  }
-};
+exports.getCourse = catchAsync(async (req, res, next) => {
+  const course = await Course.findById(req.params.id);
 
-exports.createCourse = async (req, res) => {
-  try {
-    const newCourse = await Course.create(req.body).then();
+  if (!course) {
+    return next(new AppError("No course found with that id", 404));
+  }
 
-    res.status(201).json({
-      status: "success",
-      data: {
-        student: newCourse,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: "invalid data sent",
-    });
-  }
-};
+  res.status(200).json({
+    status: "success",
+    message: "course gotten",
+    data: {
+      course,
+    },
+  });
+});
 
-exports.updateCourse = async (req, res) => {
-  try {
-    const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    res.status(200).json({
-      status: "success",
-      data: {
-        course,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: "failed to update course",
-    });
+exports.createCourse = catchAsync(async (req, res, next) => {
+  const newCourse = await Course.create(req.body).then();
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      student: newCourse,
+    },
+  });
+});
+
+exports.updateCourse = catchAsync(async (req, res, next) => {
+  const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!course) {
+    return next(new AppError("No course found with that id", 404));
   }
-};
-exports.deleteCourse = async (req, res) => {
-  try {
-    await Course.findByIdAndDelete(req.params.id);
-    res.status(204).json({
-      status: "success",
-      message: "deleted",
-      data: null,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: "failed to delete course",
-    });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      course,
+    },
+  });
+});
+
+exports.deleteCourse = catchAsync(async (req, res, next) => {
+  const course = await Course.findByIdAndDelete(req.params.id);
+  if (!course) {
+    return next(new AppError("No course found with that id", 404));
   }
-};
+  res.status(204).json({
+    status: "success",
+    message: "deleted",
+    data: null,
+  });
+});

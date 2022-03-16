@@ -1,151 +1,115 @@
 const Student = require("../models/studentModel");
 const Course = require("../models/courseModel");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
-exports.getAllStudent = async (req, res) => {
-  try {
-    const students = await Student.find();
+exports.getAllStudent = catchAsync(async (req, res, next) => {
+  const students = await Student.find();
+  res.status(200).json({
+    status: "success",
+    message: "all students",
+    results: students.length,
+    data: {
+      students,
+    },
+  });
+});
 
-    res.status(200).json({
-      status: "success",
-      message: "all students",
-      results: students.length,
-      data: {
-        students,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: "error, cannot get all students",
-    });
-  }
-};
-exports.getStudent = async (req, res) => {
-  try {
-    const student = await Student.findById(req.params.id);
-    res.status(200).json({
-      status: "success",
-      message: "student gotten",
-      data: {
-        student,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: "error, cannot get student",
-    });
-  }
-};
+exports.getStudent = catchAsync(async (req, res, next) => {
+  const student = await Student.findById(req.params.id);
 
-exports.createStudent = async (req, res) => {
-  try {
-    const newStudent = await Student.create(req.body).then();
+  if (!student) {
+    return next(new AppError("No student found with that id", 404));
+  }
 
-    res.status(201).json({
-      status: "success",
-      data: {
-        student: newStudent,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: "invalid data sent",
-    });
+  res.status(200).json({
+    status: "success",
+    message: "student gotten",
+    data: {
+      student,
+    },
+  });
+});
+
+exports.createStudent = catchAsync(async (req, res, next) => {
+  const newStudent = await Student.create(req.body).then();
+  res.status(201).json({
+    status: "success",
+    data: {
+      student: newStudent,
+    },
+  });
+});
+
+exports.updateStudent = catchAsync(async (req, res, next) => {
+  const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!student) {
+    return next(new AppError("No student found with that id", 404));
   }
-};
-exports.updateStudent = async (req, res) => {
-  try {
-    const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    res.status(200).json({
-      status: "success",
-      data: {
-        student,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: "failed to update student",
-    });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      student,
+    },
+  });
+});
+
+exports.deleteStudent = catchAsync(async (req, res, next) => {
+ const student = await Student.findByIdAndDelete(req.params.id);
+
+  if (!student) {
+    return next(new AppError("No student found with that id", 404));
   }
-};
-exports.deleteStudent = async (req, res) => {
-  try {
-    await Student.findByIdAndDelete(req.params.id);
-    res.status(204).json({
-      status: "success",
-      message: "deleted",
-      data: null,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: "failed to delete student",
-    });
-  }
-};
+
+  res.status(204).json({
+    status: "success",
+    message: "deleted",
+    data: null,
+  });
+});
 //courses
-exports.getAllCourses = async (req, res) => {
-  try {
-    const queryObj = { ...req.query };
-    const excludedfield = ["courseCode"];
-    excludedfield.forEach(el => delete queryObj[el])
-    // const queryString =  JSON.stringify(queryObj)
-    // queryString.replace
-    const query = Course.find(queryObj);
-    const course = await query
+exports.getAllCourses = catchAsync(async (req, res, next) => {
+  const queryObj = { ...req.query };
+  const excludedfield = ["courseCode"];
+  excludedfield.forEach((el) => delete queryObj[el]);
+  // const queryString =  JSON.stringify(queryObj)
+  // queryString.replace
+  const query = Course.find(queryObj);
+  const course = await query;
 
-    // const course = await Course.find(); 
+  // const course = await Course.find();
 
-    res.status(200).json({
-      status: "success",
-      message: "all courses",
-      results: course.length,
-      data: {
-        course,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: "error, cannot get all courses",
-    });
-  }
-};
-exports.getCourse = async (req, res) => {
-  try {
-    const course = await Course.findById(req.params.id);
-    res.status(200).json({
-      status: "success",
-      message: "course gotten",
-      data: {
-        course,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: "error, cannot get course",
-    });
-  }
-};
-exports.deleteCourse = async (req, res) => {
-  try {
-    await Course.findByIdAndDelete(req.params.id);
-    res.status(204).json({
-      status: "success",
-      message: "deleted",
-      data: null,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: "failed to delete course",
-    });
-  }
-};
+  res.status(200).json({
+    status: "success",
+    message: "all courses",
+    results: course.length,
+    data: {
+      course,
+    },
+  });
+});
+
+exports.getCourse = catchAsync(async (req, res) => {
+  const course = await Course.findById(req.params.id);
+  res.status(200).json({
+    status: "success",
+    message: "course gotten",
+    data: {
+      course,
+    },
+  });
+});
+
+exports.deleteCourse = catchAsync(async (req, res) => {
+  await Course.findByIdAndDelete(req.params.id);
+  res.status(204).json({
+    status: "success",
+    message: "deleted",
+    data: null,
+  });
+});
