@@ -54,13 +54,12 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     token = req.headers.authorization.split("")[1];
   }
-  console.log(token);
 
   if (!token) {
     return next(new AppError("You are not logged in! Please Login", 404));
   }
 
-  const decoded = await   promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  console.log(decoded);
   next();
 });
