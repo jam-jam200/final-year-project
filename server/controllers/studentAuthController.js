@@ -1,3 +1,4 @@
+const { promisify } = require("util");
 const Student = require("../models/studentModel");
 const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");
@@ -55,9 +56,11 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   console.log(token);
 
-  if(!token){
-    return next(new AppError("You are not logged in! Please Login",404))
+  if (!token) {
+    return next(new AppError("You are not logged in! Please Login", 404));
   }
+
+  const decoded = await   promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   next();
 });
