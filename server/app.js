@@ -17,6 +17,7 @@ const postRouter = require("./routes/post.routes");
 //middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 //setting view engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -36,6 +37,12 @@ app.use("/api/post", postRouter);
 
 //seting the static path
 app.use("/", express.static(path.join(__dirname, "/public")));
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  console.log(req.headers);
+  next();
+});
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

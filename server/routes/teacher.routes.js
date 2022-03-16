@@ -6,10 +6,7 @@ const teacherAuthController = require("../controllers/teacherAuthController");
 router.post("/signup", teacherAuthController.signup);
 router.post("/login", teacherAuthController.login);
 
-router
-  .route("/")
-  .get(teacherAuthController.protect, teacherController.getAllTeachers)
-  .post(teacherController.createTeacher);
+router.route("/").post(teacherController.createTeacher);
 
 router
   .route("/:id")
