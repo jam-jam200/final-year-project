@@ -8,7 +8,10 @@ router.post("/login", authController.login);
 
 router
   .route("/")
-  .get(authController.protect, studentController.getAllStudent)
+  .get(
+    authController.protect,
+    studentController.getAllStudent
+  )
   .post(studentController.createStudent);
 
 router
