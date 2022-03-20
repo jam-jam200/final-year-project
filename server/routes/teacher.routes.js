@@ -7,6 +7,7 @@ router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 
 router.route("/").post(teacherController.createTeacher);
+router.route("/all/:categoryId").get(teacherController.getAllTeachers);
 
 router
   .route("/:id")

@@ -2,48 +2,59 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bycrypt = require("bcryptjs");
 
-const studentSchema = new mongoose.Schema({
-  firstname: {
-    type: String,
-    required: [true, "please specify your firstname"],
-    maxlength: [50, "Firstname but be less or equal to 50 characters"],
-    minlength: [3, "Firstname must be more or equal to 3 characters"],
-  },
-  lastname: {
-    type: String,
-    required: [true, "please specify your lastname"],
-    maxlength: [50, "Lastname but be less or equal to 50 characters"],
-    minlength: [3, "Lastname must be more or equal to 3 characters"],
-  },
-  email: {
-    type: String,
-    required: [true, "please specify your email"],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, "Please provide a valid email"],
-  },
-  photo: {
-    type: String,
-    default: "",
-  },
-  password: {
-    type: String,
-    required: [true, "please provide a password"],
-    minlength: 8,
-    select: false,
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, "please confirm your password"],
-    validate: {
-      validator: function (el) {
-        return el === this.password;
+const studentSchema = new mongoose.Schema(
+  {
+    firstname: {
+      type: String,
+      required: [true, "please specify your firstname"],
+      maxlength: [50, "Firstname but be less or equal to 50 characters"],
+      minlength: [3, "Firstname must be more or equal to 3 characters"],
+    },
+    lastname: {
+      type: String,
+      required: [true, "please specify your lastname"],
+      maxlength: [50, "Lastname but be less or equal to 50 characters"],
+      minlength: [3, "Lastname must be more or equal to 3 characters"],
+    },
+    email: {
+      type: String,
+      required: [true, "please specify your email"],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, "Please provide a valid email"],
+    },
+    photo: {
+      type: String,
+      default: "",
+    },
+    password: {
+      type: String,
+      required: [true, "please provide a password"],
+      minlength: 8,
+      select: false,
+    },
+    passwordConfirm: {
+      type: String,
+      required: [true, "please confirm your password"],
+      validate: {
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: "Password are not the same",
       },
-      message: "Password are not the same",
+    },
+    passwordChangedAt: Date,
+    categoryId: {
+      type: mongoose.Schema.ObjectId,
+      ref: "UserCategory",
     },
   },
-  passwordChangedAt: Date,
-});
+  {
+    timestamps: true, //automatically creates a createdAt, updatedAt property for each documents
+    toJSON: { virtuals: true }, //used to ref virtual objects
+    toObject: { virtuals: true }, //used to ref virtual objects
+  }
+);
 
 studentSchema.pre("save", async function (next) {
   //works after password is modified

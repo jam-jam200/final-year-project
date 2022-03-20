@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
+const UserCategory = require("../models/userCategories");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -11,11 +12,37 @@ const signToken = (id) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create(req.body);
+  /**check if category exist */
+  const category = await UserCategory.findOne({
+    name: req.body.category,
+  });
+
+  if (!category) {
+    return next(new AppError("category does not exist", 400));
+  }
+
+  /**check if user exist */
+  const user = await User.findOne({
+    name: req.body.email,
+  });
+
+  if (user) {
+    return next(new AppError("account has been taken", 400));
+  }
+
+  /**create user */
+  const newUser = await User.create({
+    categoryId: category._id,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+  });
 
   const token = signToken(newUser._id);
 
-  res.status(201).json({
+  return res.status(201).json({
     status: "success",
     token,
     data: {
@@ -33,15 +60,12 @@ exports.login = catchAsync(async (req, res, next) => {
 
   const user = await User.findOne({ email }).select("+password");
 
-  if (
-    !user ||
-    !(await user.correctPassword(password, user.password))
-  ) {
+  if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect email or Password", 401));
   }
 
   const token = signToken(user._id);
-  res.status(200).json({
+  return res.status(200).json({
     status: "sucess",
     token,
   });
@@ -72,5 +96,5 @@ exports.protect = catchAsync(async (req, res, next) => {
   //check if user changed password after the token was issued
   freshUser.changedPasswordAfter(decoded.iat);
 
-  next();
+  return next();
 });
