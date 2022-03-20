@@ -13,6 +13,7 @@ const studentRouter = require("./routes/student.routes");
 const teacherRouter = require("./routes/teacher.routes");
 const courseRouter = require("./routes/course.routes");
 const postRouter = require("./routes/post.routes");
+const userCategories = require("./routes/userCategory.routes");
 
 //middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -34,6 +35,7 @@ app.use("/api/users/student", studentRouter);
 app.use("/api/users/teacher", teacherRouter);
 app.use("/api/course", courseRouter);
 app.use("/api/post", postRouter);
+app.use("/api/usercategory", userCategories);
 
 //seting the static path
 app.use("/", express.static(path.join(__dirname, "/public")));

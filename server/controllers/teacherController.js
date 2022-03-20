@@ -1,9 +1,12 @@
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const UserCategory = require("../models/userCategories");
 
 exports.getAllTeachers = catchAsync(async (req, res, next) => {
-  const teachers = await User.find();
+  const teachers = await User.find({
+    categoryId: req.params.categoryId,
+  }).populate({ path: "categoryId", select: "name _id" });
 
   res.status(200).json({
     status: "success",
@@ -30,14 +33,22 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
 });
 
 exports.createTeacher = catchAsync(async (req, res, next) => {
-  const newTeacher = await User.create(req.body).then();
-
-  res.status(201).json({
-    status: "success",
-    data: {
-      student: newTeacher,
-    },
+  const teacherCategory = await UserCategory.findOne({
+    name: req.body.category,
   });
+
+  if (!teacherCategory) {
+    return next(new AppError("category does not exist", 400));
+  }
+  console.log(teacherCategory);
+  // const newTeacher = await User.create(req.body);
+
+  // res.status(201).json({
+  //   status: "success",
+  //   data: {
+  //     student: newTeacher,
+  //   },
+  // });
 });
 
 exports.updateTeacher = catchAsync(async (req, res, next) => {

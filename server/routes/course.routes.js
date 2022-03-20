@@ -8,6 +8,7 @@ router
   .get(courseController.getCourse)
   .patch(courseController.updateCourse)
   .delete(courseController.deleteCourse);
+
 router
   .route("/")
   .post(courseController.createCourse)
