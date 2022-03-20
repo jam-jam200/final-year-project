@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/postController");
-const teacherAuthController = require("../controllers/teacherAuthController");
-const studentAuthController = require("../controllers/studentAuthController");
+const authController = require("../controllers/authController");
 
 router
   .route("/")
   .get(
-    studentAuthController.protect,
-    teacherAuthController.protect,
+    authController.protect,
+    authController.protect,
     postController.getAllPosts
   )
   .post(postController.createPost);

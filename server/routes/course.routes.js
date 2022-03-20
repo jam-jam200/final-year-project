@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const courseController = require("../controllers/courseController");
-const teacherAuthController = require("../controllers/teacherAuthController");
-const studentAuthController = require("../controllers/studentAuthController");
+const authController = require("../controllers/authController");
 
 router
   .route("/:id")
@@ -13,8 +12,8 @@ router
   .route("/")
   .post(courseController.createCourse)
   .get(
-    studentAuthController.protect,
-    teacherAuthController.protect,
+    authController.protect,
+    authController.protect,
     courseController.getAllCourses
   );
 

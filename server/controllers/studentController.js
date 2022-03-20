@@ -1,69 +1,69 @@
-const Student = require("../models/studentModel");
+const User = require("../models/userModel");
 const Course = require("../models/courseModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
 exports.getAllStudent = catchAsync(async (req, res, next) => {
-  const students = await Student.find();
+  const users = await User.find();
   res.status(200).json({
     status: "success",
-    message: "all students",
-    results: students.length,
+    message: "all users",
+    results: users.length,
     data: {
-      students,
+      users,
     },
   });
 });
 
 exports.getStudent = catchAsync(async (req, res, next) => {
-  const student = await Student.findById(req.params.id);
+  const user = await User.findById(req.params.id);
 
-  if (!student) {
-    return next(new AppError("No student found with that id", 404));
+  if (!user) {
+    return next(new AppError("No user found with that id", 404));
   }
 
   res.status(200).json({
     status: "success",
-    message: "student gotten",
+    message: "user gotten",
     data: {
-      student,
+      user,
     },
   });
 });
 
 exports.createStudent = catchAsync(async (req, res, next) => {
-  const newStudent = await Student.create(req.body).then();
+  const newStudent = await User.create(req.body).then();
   res.status(201).json({
     status: "success",
     data: {
-      student: newStudent,
+      user: newStudent,
     },
   });
 });
 
 exports.updateStudent = catchAsync(async (req, res, next) => {
-  const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
 
-  if (!student) {
-    return next(new AppError("No student found with that id", 404));
+  if (!user) {
+    return next(new AppError("No user found with that id", 404));
   }
 
   res.status(200).json({
     status: "success",
     data: {
-      student,
+      user,
     },
   });
 });
 
 exports.deleteStudent = catchAsync(async (req, res, next) => {
- const student = await Student.findByIdAndDelete(req.params.id);
+  const user = await User.findByIdAndDelete(req.params.id);
 
-  if (!student) {
-    return next(new AppError("No student found with that id", 404));
+  if (!user) {
+    return next(new AppError("No user found with that id", 404));
   }
 
   res.status(204).json({
@@ -113,3 +113,4 @@ exports.deleteCourse = catchAsync(async (req, res) => {
     data: null,
   });
 });
+

@@ -2,20 +2,18 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bycrypt = require("bcryptjs");
 
-const teacherSchema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
   firstname: {
     type: String,
     required: [true, "please specify your firstname"],
     maxlength: [50, "Firstname but be less or equal to 50 characters"],
     minlength: [3, "Firstname must be more or equal to 3 characters"],
-    // validate: [validator.isAlpha, "Firstname must only contain alphabets"],
   },
   lastname: {
     type: String,
     required: [true, "please specify your lastname"],
     maxlength: [50, "Lastname but be less or equal to 50 characters"],
     minlength: [3, "Lastname must be more or equal to 3 characters"],
-    // validate: [validator.isAlpha, "Lastname must only contain alphabets"],
   },
   email: {
     type: String,
@@ -44,9 +42,10 @@ const teacherSchema = new mongoose.Schema({
       message: "Password are not the same",
     },
   },
+  passwordChangedAt: Date,
 });
 
-teacherSchema.pre("save", async function (next) {
+studentSchema.pre("save", async function (next) {
   //works after password is modified
   if (!this.isModified("password")) return next();
   //hash password with a cost of 12
@@ -55,13 +54,23 @@ teacherSchema.pre("save", async function (next) {
   this.passwordConfirm = undefined;
 });
 
-teacherSchema.methods.correctPassword = async function (
+studentSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
   return await bycrypt.compare(candidatePassword, userPassword);
 };
 
-const Teacher = mongoose.model("Teacher", teacherSchema);
+studentSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+  }
+  return false;
+};
 
-module.exports = Teacher;
+const Student = mongoose.model("Student", studentSchema);
+
+module.exports = Student;

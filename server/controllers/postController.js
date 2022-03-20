@@ -1,7 +1,7 @@
 const Post = require("../models/postModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-//courses
+//posts
 exports.getAllPosts = catchAsync(async (req, res, next) => {
   const posts = await Post.find();
 
