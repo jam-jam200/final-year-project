@@ -7,15 +7,15 @@ router
   .route("/:id")
   .get(courseController.getCourse)
   .patch(courseController.updateCourse)
-  .delete(courseController.deleteCourse);
+  .delete(
+    authController.protect,
+    authController.restrictTo,
+    courseController.deleteCourse
+  );
 
 router
   .route("/")
   .post(courseController.createCourse)
-  .get(
-    authController.protect,
-    authController.protect,
-    courseController.getAllCourses
-  );
+  .get(authController.protect, courseController.getAllCourses);
 
 module.exports = router;

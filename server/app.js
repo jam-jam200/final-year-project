@@ -6,6 +6,25 @@ dotenv.config({ path: "../config.env" });
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+const { v4: uuidV4 } = require("uuid");
+const { ExpressPeerServer } = require("peer");
+const peerServer = ExpressPeerServer(server, {
+  debug: true,
+});
+
+app.use("/peerjs", peerServer);
+
+io.on("connection", (socket) => {
+  socket.on("join-room", (roomId, userId) => {
+    socket.join(roomId);
+    socket.to(roomId).broadcast.emit("user-connected", userId);
+    socket.on("message", (message) => {
+      io.to(roomId).emit("createMessage", message);
+    });
+  });
+});
 
 //mounting routers
 const homeRoute = require("./routes/app.routes");
@@ -31,12 +50,10 @@ if (process.env.NODE_ENV === "development") {
 
 //Routes
 app.use("/", homeRoute);
-app.use("/api/users/student", studentRouter);
-app.use("/api/users/teacher", teacherRouter);
+app.use("/api/users", studentRouter, teacherRouter);
 app.use("/api/course", courseRouter);
 app.use("/api/post", postRouter);
 app.use("/api/usercategory", userCategories);
-
 //seting the static path
 app.use("/", express.static(path.join(__dirname, "/public")));
 

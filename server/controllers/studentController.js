@@ -15,6 +15,22 @@ exports.getAllStudent = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateMe = catchAsync(async (req, res, next) => {
+  //create error if user posted password data
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError(
+        "This route is not for password update, please use /updatemypassword",
+        400
+      )
+    );
+  }
+  //update user document
+  res.status(200).json({
+    status: "success",
+  });
+});
+
 exports.getStudent = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
@@ -113,4 +129,3 @@ exports.deleteCourse = catchAsync(async (req, res) => {
     data: null,
   });
 });
-

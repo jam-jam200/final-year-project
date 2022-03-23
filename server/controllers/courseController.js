@@ -37,7 +37,7 @@ exports.createCourse = catchAsync(async (req, res, next) => {
   res.status(201).json({
     status: "success",
     data: {
-      student: newCourse,
+      course: newCourse,
     },
   });
 });

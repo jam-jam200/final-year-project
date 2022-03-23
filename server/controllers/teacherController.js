@@ -1,10 +1,10 @@
-const User = require("../models/userModel");
+const Teacher = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const UserCategory = require("../models/userCategories");
 
 exports.getAllTeachers = catchAsync(async (req, res, next) => {
-  const teachers = await User.find({
+  const teachers = await Teacher.find({
     categoryId: req.params.categoryId,
   }).populate({ path: "categoryId", select: "name _id" });
 
@@ -19,7 +19,7 @@ exports.getAllTeachers = catchAsync(async (req, res, next) => {
 });
 
 exports.getTeacher = catchAsync(async (req, res, next) => {
-  const teacher = await User.findById(req.params.id);
+  const teacher = await Teacher.findById(req.params.id);
   if (!teacher) {
     return next(new AppError("No teacher found with that id", 404));
   }
@@ -32,6 +32,22 @@ exports.getTeacher = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateMe = catchAsync(async (req, res, next) => {
+  //create error if user posted password data
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError(
+        "This route is not for password update, please use /updatemypassword",
+        400
+      )
+    );
+  }
+  //update user document
+  res.status(200).json({
+    status: "success",
+  });
+});
+
 exports.createTeacher = catchAsync(async (req, res, next) => {
   const teacherCategory = await UserCategory.findOne({
     name: req.body.category,
@@ -40,19 +56,19 @@ exports.createTeacher = catchAsync(async (req, res, next) => {
   if (!teacherCategory) {
     return next(new AppError("category does not exist", 400));
   }
-  console.log(teacherCategory);
-  // const newTeacher = await User.create(req.body);
+  // console.log(teacherCategory);
+  const newTeacher = await Teacher.create(req.body);
 
-  // res.status(201).json({
-  //   status: "success",
-  //   data: {
-  //     student: newTeacher,
-  //   },
-  // });
+  res.status(201).json({
+    status: "success",
+    data: {
+      student: newTeacher,
+    },
+  });
 });
 
 exports.updateTeacher = catchAsync(async (req, res, next) => {
-  const teacher = await User.findByIdAndUpdate(req.params.id, req.body, {
+  const teacher = await Teacher.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
@@ -68,7 +84,7 @@ exports.updateTeacher = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteTeacher = catchAsync(async (req, res, next) => {
-  const teacher = await User.findByIdAndDelete(req.params.id);
+  const teacher = await Teacher.findByIdAndDelete(req.params.id);
   if (!teacher) {
     return next(new AppError("No teacher found with that id", 404));
   }

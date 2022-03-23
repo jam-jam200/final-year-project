@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bycrypt = require("bcryptjs");
@@ -27,6 +28,7 @@ const studentSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
     password: {
       type: String,
       required: [true, "please provide a password"],
@@ -44,13 +46,15 @@ const studentSchema = new mongoose.Schema(
       },
     },
     passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
     categoryId: {
       type: mongoose.Schema.ObjectId,
       ref: "UserCategory",
     },
   },
   {
-    timestamps: true, //automatically creates a createdAt, updatedAt property for each documents
+    // timestamps: true, //automatically creates a createdAt, updatedAt property for each documents
     toJSON: { virtuals: true }, //used to ref virtual objects
     toObject: { virtuals: true }, //used to ref virtual objects
   }
@@ -63,12 +67,21 @@ studentSchema.pre("save", async function (next) {
   this.password = await bycrypt.hash(this.password, 12);
   //delete the password confirmed field
   this.passwordConfirm = undefined;
+  return next();
+});
+
+studentSchema.pre("save", function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  return next();
 });
 
 studentSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
 ) {
+  // console.log("my password is=====",userPassword);
   return await bycrypt.compare(candidatePassword, userPassword);
 };
 
@@ -78,8 +91,29 @@ studentSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
       this.passwordChangedAt.getTime() / 1000,
       10
     );
+    return JWTTimestamp < changedTimestamp;
   }
+
+  //false means not changed
   return false;
+};
+
+studentSchema.methods.createPasswordResetToken = () => {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  //sha256 is a hashing algorithm in crpto
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = Date.now() + 20 * 60;
+  console.log(
+    { resetToken },
+    this.passwordResetToken,
+    this.passwordResetExpires
+  );
+
+  return resetToken;
 };
 
 const Student = mongoose.model("Student", studentSchema);

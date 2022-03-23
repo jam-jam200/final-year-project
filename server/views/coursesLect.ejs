@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./includes/head.ejs') %>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+
+        <%- include('./includes/sidebarLect.ejs') %>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="">
+            <div class="container">
+              <p id="demo"></p>
+            </div>
+            <div class="profile container">
+              <svg
+                class="psvg text-white"
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="user-plus"
+                class="svg-inline--fa fa-user-plus fa-w-20"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M624 208h-64v-64c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v64h-64c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h64v64c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-64h64c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm-400 48c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <h3>Courses</h3>
+          <hr />
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card card2">
+              <a href="/courseView">  <div class="card-body course-card">
+                  <h5 class="card-title text-white">COSC 401 CSB</h5>
+                  <h6 class="card-subtitle mb-5 text-white">
+                    Compiler Construction
+                  </h6>
+                  <p class="card-text text-white">Dr Seun Ebiesuwa</p>
+                  <svg
+                  style="margin-left: 570px;"
+                    class="text-white dot"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="ellipsis-v"
+                    class="svg-inline--fa fa-ellipsis-v fa-w-6"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 192 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                    ></path>
+                  </svg>
+                </div></a>
+              </div>
+            </div>
+            <!-- <div class="col-sm-6">
+              <div class="card card3">
+                <div class="card-body course-card">
+                  <h5 class="card-title text-white">INSY 405 CSB</h5>
+                  <h6 class="card-subtitle mb-5 text-white">
+                    Software Engineering
+                  </h6>
+                  <p class="card-text text-white">Monday Eze</p>
+                  <svg
+                    class="text-white dot"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="ellipsis-v"
+                    class="svg-inline--fa fa-ellipsis-v fa-w-6"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 192 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="col-sm-6">
+              <div class="card card4">
+                <div class="card-body course-card">
+                  <h5 class="card-title text-white">INSY 405 CSB</h5>
+                  <h6 class="card-subtitle mb-5 text-white">
+                    Software Engineering
+                  </h6>
+                  <p class="card-text text-white">Monday Eze</p>
+                  <svg
+                    class="text-white dot"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="ellipsis-v"
+                    class="svg-inline--fa fa-ellipsis-v fa-w-6"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 192 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="col-sm-6">
+              <div class="card card5">
+                <div class="card-body course-card">
+                  <h5 class="card-title text-white">INSY 405 CSB</h5>
+                  <h6 class="card-subtitle mb-5 text-white">
+                    Software Engineering
+                  </h6>
+                  <p class="card-text text-white">Monday Eze</p>
+                  <svg
+                    class="text-white dot"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="ellipsis-v"
+                    class="svg-inline--fa fa-ellipsis-v fa-w-6"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 192 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div> -->
+          </div>
+
+          <!-- <svg
+            style="
+              width: 45px;
+              height: 45px;
+              margin-left: 1200px;
+              margin-bottom: 10px;
+            "
+            viewBox="0 0 77 77"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="38.5" cy="38.5" r="38.5" fill="#2A69B9" />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M56.1925 37.5986C56.1925 38.865 55.1671 39.8941 53.897 39.8941H40.8893V52.9018C40.8893 54.1681 39.864 55.1973 38.5938 55.1973C37.3237 55.1973 36.3022 54.1681 36.3022 52.9018V39.8941H23.2907C22.0205 39.8941 20.999 38.865 20.999 37.5986C20.999 36.3323 22.0205 35.3032 23.2907 35.3032H36.3022V22.2955C36.3022 21.0291 37.3237 20 38.5938 20C39.864 20 40.8893 21.0291 40.8893 22.2955V35.3032H53.897C55.1671 35.3032 56.1925 36.3323 56.1925 37.5986Z"
+              fill="white"
+            />
+          </svg>  -->
+        </main>
+      </div>
+    </div>
+  </body>
+  <%- include('./includes/script.ejs') %>
+</html>

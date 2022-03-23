@@ -5,11 +5,20 @@ const router = express.Router();
 
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
+router.post("/forgotpassword", authController.forgetPassword);
+router.patch("/resetpassword/:token", authController.resetPassword);
+router.patch(
+  "/updatemypassword",
+  authController.protect,
+  authController.updatePassword
+);
+router.patch("/updateme", authController.protect, studentController.updateMe)
 
 router
   .route("/")
   .get(
     authController.protect,
+    authController.restrictTo,
     studentController.getAllStudent
   )
   .post(studentController.createStudent);

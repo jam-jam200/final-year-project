@@ -11,7 +11,7 @@ exports.create = async (req, res, next) => {
       return next(new AppError("name must a string", 400));
     }
 
-    /**always don't to to validate your data */
+    /**always remember to validate your data */
     const category = await UserCategory.create(req.body);
 
     return res.status(200).json({
@@ -25,7 +25,7 @@ exports.create = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
   try {
-    /**always don't to to validate your data */
+    /**always remember to validate your data */
     const category = await UserCategory.find();
     return res.status(200).json({
       status: "success",
