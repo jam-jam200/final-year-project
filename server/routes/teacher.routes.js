@@ -1,26 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const teacherController = require("../controllers/teacherController");
+const authController = require("../controllers/authController");
 
-router.param("id", (req, res, next,     val) => {
-  console.log(`the id is ${val}`);
-  next();
-});
+router.post("/signup", authController.signup);
+router.post("/login", authController.login);
+router.post("/forgotpassword", authController.forgetPassword);
+router.patch("/resetpassword/:token", authController.resetPassword);
+router.patch(
+  "/updatemypassword",
+  authController.protect,
+  authController.updatePassword
+);
+router.patch("/updateme", authController.protect, teacherController.updateMe);
+
+router.route("/").post(teacherController.createTeacher);
+router.route("/all/:categoryId").get(teacherController.getAllTeachers);
 
 router
-  .route("/")
-  .get(teacherController.getAllTeachers)
-  .get(teacherController.getAllCourses)
-  .post(teacherController.createCourse)
-  .post(teacherController.createTeacher);
-
-router
-  .route("/course/:id")
+  .route("/:id")
   .get(teacherController.getTeacher)
-  .get(teacherController.getCourse)
   .patch(teacherController.updateTeacher)
-  .patch(teacherController.updateCourse)
-  .delete(teacherController.deleteCourse)
   .delete(teacherController.deleteTeacher);
 
 module.exports = router;

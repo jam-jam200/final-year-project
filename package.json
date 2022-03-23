@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server/index.js",
+    "start": "NODE_ENV=production nodemon ./server/index.js",
     "dev": "nodemon ./server/index.js",
-    "start:prod": "NODE_ENV=production nodemon ./server/index.js"
+    "debug": "ndb ./server/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,16 +20,24 @@
   },
   "homepage": "https://github.com/jam-jam200/final-year-project#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bootstrap-icons": "^1.8.1",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "flaticon": "^0.1.0",
     "font-awesome": "^4.7.0",
-    "mongoose": "^6.0.13",
+    "joi": "^17.6.0",
+    "joi-password-complexity": "^5.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.14",
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
-    "uuid": "^8.3.2"
+    "nodemailer": "^6.7.3",
+    "peer": "^0.6.1",
+    "socket.io": "^4.4.1",
+    "uuid": "^8.3.2",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^8.10.0",
@@ -42,5 +50,8 @@
     "eslint-plugin-react": "^7.29.3",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
