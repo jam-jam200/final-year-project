@@ -48,6 +48,11 @@ const studentSchema = new mongoose.Schema(
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
     categoryId: {
       type: mongoose.Schema.ObjectId,
       ref: "UserCategory",
@@ -75,6 +80,12 @@ studentSchema.pre("save", function (next) {
 
   this.passwordChangedAt = Date.now() - 1000;
   return next();
+});
+
+studentSchema.pre(/^find/, function (next) {
+  //points to the next query
+  this.find({ active: { $ne: false } });
+  next();
 });
 
 studentSchema.methods.correctPassword = async function (

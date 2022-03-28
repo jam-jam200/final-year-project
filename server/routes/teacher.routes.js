@@ -13,6 +13,7 @@ router.patch(
   authController.updatePassword
 );
 router.patch("/updateme", authController.protect, teacherController.updateMe);
+router.delete("/deleteme", authController.protect, teacherController.deleteme);
 
 router.route("/").post(teacherController.createTeacher);
 router.route("/all/:categoryId").get(teacherController.getAllTeachers);

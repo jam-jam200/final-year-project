@@ -2,6 +2,15 @@ const User = require("../models/userModel");
 const Course = require("../models/courseModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const Student = require("../models/userModel");
+
+const filterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+  Object.keys(obj).forEach((el) => {
+    if (allowedFields.includes(el)) newObj[el] = obj[el];
+  });
+  return newObj;
+};
 
 exports.getAllStudent = catchAsync(async (req, res, next) => {
   const users = await User.find();
@@ -12,22 +21,6 @@ exports.getAllStudent = catchAsync(async (req, res, next) => {
     data: {
       users,
     },
-  });
-});
-
-exports.updateMe = catchAsync(async (req, res, next) => {
-  //create error if user posted password data
-  if (req.body.password || req.body.passwordConfirm) {
-    return next(
-      new AppError(
-        "This route is not for password update, please use /updatemypassword",
-        400
-      )
-    );
-  }
-  //update user document
-  res.status(200).json({
-    status: "success",
   });
 });
 
@@ -126,6 +119,44 @@ exports.deleteCourse = catchAsync(async (req, res) => {
   res.status(204).json({
     status: "success",
     message: "deleted",
+    data: null,
+  });
+});
+
+exports.updateMe = catchAsync(async (req, res, next) => {
+  //create error if user posted password data
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError(
+        "This route is not for password update, please use /updatemypassword",
+        400
+      )
+    );
+  }
+  //update user document, filtered unwanted fields that is not meant to be updated.
+  const filterbody = filterObj(req.body, "firstname", "lastname", "email");
+  const updateStudent = await Student.findByIdAndUpdate(
+    req.user.id,
+    filterbody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      student: updateStudent,
+    },
+  });
+});
+
+exports.deleteme = catchAsync(async (req, res, next) => {
+  await Student.findByIdAndUpdate(req.user.id, { active: false });
+
+  res.status(204).json({
+    status: "success",
     data: null,
   });
 });

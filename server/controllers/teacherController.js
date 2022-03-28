@@ -3,6 +3,14 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const UserCategory = require("../models/userCategories");
 
+const filterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+  Object.keys(obj).forEach((el) => {
+    if (allowedFields.includes(el)) newObj[el] = obj[el];
+  });
+  return newObj;
+};
+
 exports.getAllTeachers = catchAsync(async (req, res, next) => {
   const teachers = await Teacher.find({
     categoryId: req.params.categoryId,
@@ -42,9 +50,31 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       )
     );
   }
-  //update user document
+  //update user document, filtered unwanted fields that is not meant to be updated.
+  const filterbody = filterObj(req.body, "firstname", "lastname", "email");
+  const updateTeacher = await Teacher.findByIdAndUpdate(
+    req.user.id,
+    filterbody,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
   res.status(200).json({
     status: "success",
+    data: {
+      teacher: updateTeacher,
+    },
+  });
+});
+
+exports.deleteme = catchAsync(async (req, res, next) => {
+  await Teacher.findByIdAndUpdate(req.user.id, { active: false });
+
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });
 
