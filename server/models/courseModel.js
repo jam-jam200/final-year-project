@@ -11,7 +11,7 @@ const courseSchema = new mongoose.Schema({
     required: [true, "please specify course name"],
     unique: true,
     maxlength: [30, "course name but be less or equal to 30 characters"],
-    minlength: [10 , "course name must be more or equal to 10 characters"],
+    minlength: [10, "course name must be more or equal to 10 characters"],
   },
   imageCover: {
     type: String,
@@ -21,6 +21,10 @@ const courseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  // categoryId: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: "UserCategory",
+  // },
 });
 
 const Course = mongoose.model("Course", courseSchema);

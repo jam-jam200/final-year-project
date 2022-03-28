@@ -25,7 +25,7 @@ exports.getAllStudent = catchAsync(async (req, res, next) => {
 });
 
 exports.getStudent = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id).populate("posts");
 
   if (!user) {
     return next(new AppError("No user found with that id", 404));

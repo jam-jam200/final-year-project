@@ -96,6 +96,12 @@ studentSchema.methods.correctPassword = async function (
   return await bycrypt.compare(candidatePassword, userPassword);
 };
 
+studentSchema.virtual("posts", {
+  ref: "Post",
+  foreignField: "user",
+  localField: "_id"
+});
+
 studentSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(

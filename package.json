@@ -30,6 +30,7 @@
     "flaticon": "^0.1.0",
     "font-awesome": "^4.7.0",
     "helmet": "^3.16.0",
+    "hpp": "^0.2.3",
     "joi": "^17.6.0",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",

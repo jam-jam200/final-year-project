@@ -10,6 +10,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
+const hpp = require("hpp");
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const { v4: uuidV4 } = require("uuid");
@@ -46,7 +47,10 @@ app.use(express.json({ limit: "10kb" }));
 app.use(mongoSanitize());
 
 //Data sanitization against XSS(cross site scripting attacks)
-app.use(xss())
+app.use(xss());
+
+//prevent parameter pollution
+app.use(hpp());
 
 //setting view engine
 app.set("views", path.join(__dirname, "views"));
