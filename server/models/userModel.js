@@ -57,6 +57,10 @@ const studentSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "UserCategory",
     },
+    // user: {
+    //   type: mongoose.Schema.ObjectId,
+    //   ref: "Student",
+    // },
   },
   {
     // timestamps: true, //automatically creates a createdAt, updatedAt property for each documents
@@ -99,7 +103,7 @@ studentSchema.methods.correctPassword = async function (
 studentSchema.virtual("posts", {
   ref: "Post",
   foreignField: "user",
-  localField: "_id"
+  localField: "_id",
 });
 
 studentSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
