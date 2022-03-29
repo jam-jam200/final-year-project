@@ -38,14 +38,14 @@ router.get("/sign-up", (req, res, next) => {
     title: "Sign Up",
   });
 });
-router.get("/login", (req, res, next) => {
+router.get("/login", (req, res) => {
   res.render("login.ejs", {
-    title: "Login",
+    title: "Log in to account",
   });
 });
-router.get("/log-in", (req, res, next) => {
+router.get("/log-in", (req, res) => {
   res.render("loginNow.ejs", {
-    title: "Login",
+    title: "Log in to account",
   });
 });
 router.get("/coursesLect", (req, res, next) => {
@@ -73,7 +73,6 @@ router.get("/lectSet", (req, res, next) => {
     title: "Settings",
   });
 });
-
 
 router.get("/forgotpassword", (req, res, next) => {
   res.render("forgotPassword.ejs", {

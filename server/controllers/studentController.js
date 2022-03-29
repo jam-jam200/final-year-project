@@ -3,6 +3,7 @@ const Course = require("../models/courseModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Student = require("../models/userModel");
+const factory = require("./handlerFactory");
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -25,7 +26,7 @@ exports.getAllStudent = catchAsync(async (req, res, next) => {
 });
 
 exports.getStudent = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate("posts");
+  const user = await User.findById(req.params.id);
 
   if (!user) {
     return next(new AppError("No user found with that id", 404));
@@ -102,6 +103,11 @@ exports.getAllCourses = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getMe = (req, res, next) => {
+  req.params.id;
+  next();
+};
 
 exports.getCourse = catchAsync(async (req, res) => {
   const course = await Course.findById(req.params.id);

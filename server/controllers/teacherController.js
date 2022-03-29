@@ -26,6 +26,11 @@ exports.getAllTeachers = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getMe = (req, res, next) => {
+  req.params.id;
+  next();
+};
+
 exports.getTeacher = catchAsync(async (req, res, next) => {
   const teacher = await Teacher.findById(req.params.id);
   if (!teacher) {

@@ -23,6 +23,12 @@ router
   .route("/:id/posts")
   .post(authController.protect, postController.createPost);
 
+router.get(
+  "/me",
+  authController.protect,
+  teacherController.getMe,
+  teacherController.getTeacher
+);
 
 router
   .route("/:id")

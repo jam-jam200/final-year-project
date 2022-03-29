@@ -17,6 +17,15 @@ router.patch(
 router.patch("/updateme", authController.protect, studentController.updateMe);
 router.delete("/deleteme", authController.protect, studentController.deleteme);
 
+router.get(
+  "/me",
+  authController.protect,
+  studentController.getMe,
+  studentController.getStudent
+);
+
+
+
 router
   .route("/")
   .get(
@@ -29,8 +38,8 @@ router
 router
   .route("/:id")
   .get(studentController.getStudent)
-  .patch(studentController.updateStudent)
-  .delete(studentController.deleteStudent);
+  .patch(studentController.updateStudent, authController.protect)
+  .delete(studentController.deleteStudent, authController.protect);
 router
   .route("/course/:id")
   .get(studentController.getCourse)
