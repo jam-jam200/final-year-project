@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production nodemon ./server/index.js",
-    "dev": "nodemon ./server/index.js",
+    "start": "node init && NODE_ENV=production nodemon ./server/index.js",
+    "dev": "node init && nodemon ./server/index.js",
     "debug": "ndb ./server/index.js"
   },
   "repository": {

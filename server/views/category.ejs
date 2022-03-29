@@ -54,5 +54,13 @@
       <img src="/images/student.png" alt="student-icon" />
       <p>Student</p>
     </div>
+    <script>
+      document.getElementById('teacher').onclick = function() {
+        localStorage.setItem('category', 'teacher')
+      }
+      document.getElementById('student').onclick = function() {
+        localStorage.setItem('category', 'student')
+      }
+    </script>
   </body>
 </html>
