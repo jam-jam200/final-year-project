@@ -1,3 +1,10 @@
+function teachClick() {
+  location.href = "/get_started";
+}
+function studClick() {
+  location.href = "/signup";
+}
+
 window.onload = function () {
   var teach = document.getElementById("teacher");
   var el = document.getElementById("student");
@@ -5,12 +12,7 @@ window.onload = function () {
   el.onclick = studClick;
 };
 
-function teachClick() {
-  location.href = "/get_started";
-}
-function studClick() {
-  location.href = "/signup";
-}
+
 
 // room coding
 

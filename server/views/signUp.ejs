@@ -76,7 +76,21 @@
                             class="form-control"
                           />
                           <label class="form-label" for="form3Example1c"
-                            >Your Name</label
+                            >Your First Name</label
+                          >
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-row align-items-center mb-4">
+                        <!-- <i class="fas fa-user fa-lg me-3 fa-fw"></i> -->
+                        <div class="form-outline flex-fill mb-0">
+                          <input
+                            type="text"
+                            id="form3Example2c"
+                            class="form-control"
+                          />
+                          <label class="form-label" for="form3Example2c"
+                            >Your Last Name</label
                           >
                         </div>
                       </div>
@@ -130,7 +144,6 @@
                           <a
                             class="btn1 btn"
                             id="but"
-                            href="/login"
                             role="button"
                             >sign up</a
                           >
@@ -154,5 +167,30 @@
         </div>
       </div>
     </section>
+    <script>
+      document.getElementById('but').onclick = async function(e) {
+        e.preventDefault()
+        const obj = {
+          category: localStorage.getItem('category'),
+          firstname: document.getElementById('form3Example1c').value,
+          lastname: document.getElementById('form3Example2c').value,
+          email: document.getElementById('form3Example3c').value,
+          password: document.getElementById('form3Example4c').value,
+          passwordConfirm: document.getElementById('form3Example4c').value
+        }
+        await fetch("http://localhost:8000/api/users/signup",{
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(obj)
+        })
+        .then((response) => response.json())
+        .then((resp) =>{
+            console.log(resp)
+        })
+        .catch((error) =>{
+            console.log(error);
+        });
+      }
+    </script>
   </body>
 </html>

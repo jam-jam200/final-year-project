@@ -73,7 +73,9 @@ studentSchema.pre("save", async function (next) {
   //works after password is modified
   if (!this.isModified("password")) return next();
   //hash password with a cost of 12
-  this.password = await bycrypt.hash(this.password, 12);
+  const salt = bycrypt.genSaltSync(12)
+  this.password = await bycrypt.hashSync(this.password, salt)
+  // this.password = await bycrypt.hash(this.password, 12);
   //delete the password confirmed field
   this.passwordConfirm = undefined;
   return next();
@@ -92,12 +94,10 @@ studentSchema.pre(/^find/, function (next) {
   next();
 });
 
-studentSchema.methods.correctPassword = async function (
-  candidatePassword,
-  userPassword
-) {
+studentSchema.methods.correctPassword = async function (password) {
   // console.log("my password is=====",userPassword);
-  return await bycrypt.compare(candidatePassword, userPassword);
+  // return await bycrypt.compare(candidatePassword, userPassword);
+  return await bcrypt.compare(password, this.password)
 };
 
 studentSchema.virtual("posts", {
